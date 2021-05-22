@@ -1,0 +1,8 @@
+Kuva on suoraan nähtävissä osoitteessa https://www.websequencediagrams.com/files/render?link=ftK3rixFd88btTVptFBXCFsFPFc8QOIHb3A9LYIktqqXuOCyh3nvQoT1GEdCMavv
+Jos yllä oleva linkki ei toimi, tässä vielä koodi diagrammiin:
+
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa { "content": "muistiinpanon sisältö", "date": "päivänmäärä" }
+note over selain
+Selaimella on oma kopio kaikista muistiinpanoista, mitkä se sai ladatessaan sivun ensimmäisen kerran, 
+ja kun painetaan "Save" nappia, selain lisää muistiinpanon omaan kopioonsa ja uudelleen renderöi oman listansa.
+end note

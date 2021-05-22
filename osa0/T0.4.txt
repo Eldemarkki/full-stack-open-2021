@@ -1,0 +1,24 @@
+Kuva on suoraan nähtävissä osoitteessa https://www.websequencediagrams.com/files/render?link=t49HnjvQveI91iISJO99eOh9I71YUjttE7m3BkYE9ldSRWczMAQRU1anUAPcBZFm
+Jos yllä oleva linkki ei toimi, tässä vielä koodi diagrammiin:
+
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note { "note": "muistiinpanon sisältö" }
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+palvelin-->selain: Sivuston HTML-koodi
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin-->selain: main.css
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+palvelin-->selain: main.js
+
+note over selain
+Palvelin alkaa suorittamaan main.js-tiedostoa, joka pyytää palvelimelta kaikki muistiinpanot
+end note
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+palvelin-->selain: Kaikki muistiinpanot tiedostossa data.json
+
+note over selain
+Selaimen tapahtumankäsittelijä renderöi muistiinpanot sivustolle
+end note

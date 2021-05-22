@@ -1,0 +1,22 @@
+Kuva on suoraan nähtävissä osoitteessa https://www.websequencediagrams.com/files/render?link=yd4t7e4NN6eqYFt0sWeKiZYhgCh0n4edopSERbjPumxq3FAEw0JKIu7z1rLDeVwN
+Jos yllä oleva linkki ei toimi, tässä vielä koodi diagrammiin:
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+palvelin-->selain: Sivuston HTML-koodi
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin-->selain: main.css
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+palvelin-->selain: spa.js
+
+note over selain
+Selain ajaa spa.js-tiedoston, joka pyytää palvelimelta kaikki muistiinpanot
+end note
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+palvelin-->selain: data.json
+
+note over selain
+Selaimen tapahtumankäsittelijä renderöi vastaanotetut muistiinpanot
+end note
