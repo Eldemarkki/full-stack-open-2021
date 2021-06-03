@@ -1,7 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import contactService from "./services/contacts"
 
-const Numbers = ({ persons, nameFilter, askDeleteContact }) => {
+const Numbers = ({ persons, nameFilter, setPersons, setNotificationMessage, setErrorMessage }) => {
+  const askDeleteContact = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      contactService.deleteContact(id)
+        .then(() => {
+          contactService.getAll().then(contacts => {
+            setPersons(contacts)
+          })
+
+          setNotificationMessage(`Deleted contact '${name}'`)
+          setTimeout(() => { setNotificationMessage(null) }, 5000)
+        })
+        .catch(() => {
+          alert("The contact was already deleted on the server.")
+          setErrorMessage(`'${name}' was already deleted on the server`)
+          setTimeout(() => { setErrorMessage(null) }, 5000)
+          setPersons(persons.filter(p => p.id !== id))
+        })
+    }
+  }
+
+  console.log(persons)
   return (
     persons.filter(p => p.name.toLowerCase().includes(nameFilter)).map(person => {
       return (
@@ -42,6 +63,7 @@ const PersonForm = ({ persons, setPersons, setNotificationMessage }) => {
     else {
       const contactObject = { name: newName, number: newNumber }
       contactService.add(contactObject).then(newContact => {
+        console.log(newContact)
         setPersons([...persons, newContact])
       })
 
@@ -94,32 +116,13 @@ const App = () => {
 
   useEffect(() => {
     contactService.getAll().then(contacts => {
+      console.log(contacts)
       setPersons(contacts)
     })
   }, [])
 
   const [nameFilter, setNameFilter] = useState('')
   const onNameFilterChanged = (event) => setNameFilter(event.target.value)
-
-  const askDeleteContact = (id, name) => {
-    if (window.confirm(`Delete ${name}?`)) {
-      contactService.deleteContact(id)
-        .then(() => {
-          contactService.getAll().then(contacts => {
-            setPersons(contacts)
-          })
-
-          setNotificationMessage(`Deleted contact '${name}'`)
-          setTimeout(() => { setNotificationMessage(null) }, 5000)
-        })
-        .catch(() => {
-          alert("The contact was already deleted on the server.")
-          setErrorMessage(`'${name}' was already deleted on the server`)
-          setTimeout(() => { setErrorMessage(null) }, 5000)
-          setPersons(persons.filter(p => p.id !== id))
-        })
-    }
-  }
 
   return (
     <div>
@@ -132,7 +135,7 @@ const App = () => {
       <PersonForm persons={persons} setPersons={setPersons} setNotificationMessage={setNotificationMessage} />
 
       <h3>Numbers</h3>
-      <Numbers persons={persons} nameFilter={nameFilter} askDeleteContact={(id, name) => askDeleteContact(id, name)} />
+      <Numbers persons={persons} nameFilter={nameFilter} setPersons={setPersons} setErrorMessage={setErrorMessage} setNotificationMessage={setNotificationMessage} />
 
     </div>
   )
