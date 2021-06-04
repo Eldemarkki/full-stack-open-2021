@@ -35,7 +35,7 @@ const Numbers = ({ persons, nameFilter, setPersons, setNotificationMessage, setE
   )
 }
 
-const PersonForm = ({ persons, setPersons, setNotificationMessage }) => {
+const PersonForm = ({ persons, setPersons, setNotificationMessage, setErrorMessage }) => {
 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
@@ -65,10 +65,12 @@ const PersonForm = ({ persons, setPersons, setNotificationMessage }) => {
       contactService.add(contactObject).then(newContact => {
         console.log(newContact)
         setPersons([...persons, newContact])
+        setNotificationMessage(`Added contact '${newName}'`)
+        setTimeout(() => { setNotificationMessage(null) }, 5000)
+      }).catch(error => {
+        setErrorMessage(error.response.data.error)
+        setTimeout(() => { setErrorMessage(null) }, 5000)
       })
-
-      setNotificationMessage(`Added contact '${newName}'`)
-      setTimeout(() => { setNotificationMessage(null) }, 5000)
     }
 
     setNewName('')
@@ -132,7 +134,7 @@ const App = () => {
       <NameFilter nameFilterValue={nameFilter} onNameFilterChanged={onNameFilterChanged} />
 
       <h3>Add a new contact</h3>
-      <PersonForm persons={persons} setPersons={setPersons} setNotificationMessage={setNotificationMessage} />
+      <PersonForm persons={persons} setPersons={setPersons} setNotificationMessage={setNotificationMessage} setErrorMessage={setErrorMessage}/>
 
       <h3>Numbers</h3>
       <Numbers persons={persons} nameFilter={nameFilter} setPersons={setPersons} setErrorMessage={setErrorMessage} setNotificationMessage={setNotificationMessage} />
